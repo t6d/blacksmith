@@ -13,4 +13,6 @@ Gem::Specification.new do |gem|
   gem.name          = "blacksmith"
   gem.require_paths = ["lib"]
   gem.version       = Blacksmith::VERSION
+  
+  gem.add_dependency "smart_properties", "~> 1.0"
 end

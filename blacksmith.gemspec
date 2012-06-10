@@ -4,9 +4,8 @@ require File.expand_path('../lib/blacksmith/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Konstantin Tennhard"]
   gem.email         = ["me@t6d.de"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.summary       = %q{Blacksmith uses FontForge to build fonts from SVG graphics}
+  gem.homepage      = "http://github.com/t6d/blacksmith"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

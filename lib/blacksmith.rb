@@ -3,45 +3,69 @@ require 'erb'
 require 'tempfile'
 require 'singleton'
 
-require 'blacksmith/font'
-require 'blacksmith/font_builder'
-require 'blacksmith/font_forge'
-require 'blacksmith/glyph'
-require 'blacksmith/version'
-
-module Blacksmith
-  
+class Blacksmith
   Point = Struct.new(:x, :y)
   
+  class Error < ::RuntimeError; end
+  class DependencyMissing < Error; end
+
   class << self
-    
-    def forge(filename = nil, &block)
-      font         = create_font(&block)
-      instructions = create_forging_instructions(font)
-      
-      FontForge.execute(instructions)
+
+    def forge(*args, &block)
+      new(*args, &block).forge
     end
     
-    private
+    def root_directory
+      File.expand_path('../..', __FILE__)
+    end
     
-      def create_font(&block)
-        FontBuilder.new(&block).build
-      end
-      
-      def create_forging_instructions(font)
-        font.instance_exec(forging_template) do |template|
-          template.result(binding)
-        end
-      end
-      
-      def forging_template
-        template = File.read(File.join(root_directory, 'support', 'forging_instructions.py.erb'))
-        ERB.new(template)
-      end
-      
-      def root_directory
-        File.expand_path('../..', __FILE__)
-      end
-    
+    def support_directory
+      File.join(root_directory, 'support')
+    end
+
   end
+  
+  def initialize(filename = nil, &block)
+    @font = build_font(&block)
+  end
+  
+  def forge
+    check_environment
+    
+    forge_font
+    auto_hint_font
+    convert_font
+  end
+
+  protected
+    
+    attr_reader :font
+    
+    def build_font(&block)
+      FontBuilder.execute(&block)
+    end
+    
+    def check_environment
+      FontForge.check_dependency!
+    end
+    
+    def forge_font
+      FontForge.execute(font.to_fontforge_instructions)
+    end
+    
+    def auto_hint_font
+    end
+    
+    def convert_font
+    end
+
 end
+
+require 'blacksmith/executable'
+require 'blacksmith/font_forge'
+
+require 'blacksmith/font'
+require 'blacksmith/font_builder'
+require 'blacksmith/glyph'
+
+require 'blacksmith/version'

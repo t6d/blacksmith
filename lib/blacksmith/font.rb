@@ -34,6 +34,12 @@ module Blacksmith
                           File.extname(target) == '.ttf' and 
                           File.directory?(File.dirname(target)) 
                         }
+                        
+    property :baseline, :converts => :to_f,
+                        :accepts => lambda { |baseline| baseline > 0.0 }
+
+    property :scale, :converts => :to_f,
+                     :accepts => lambda { |scale| scale > 0.0 }
     
     def identifier
       name.gsub(/\W+/, '_')
@@ -46,6 +52,14 @@ module Blacksmith
     def <<(glyph)
       @glyphs ||= []
       @glyphs << glyph
+    end
+    
+    def baseline
+      super or (1.0 * descent) / (ascent + descent)
+    end
+    
+    def origin
+      Point.new(0, (ascent + descent) * baseline - descent)
     end
     
   end

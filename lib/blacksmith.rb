@@ -11,6 +11,8 @@ require 'blacksmith/version'
 
 module Blacksmith
   
+  Point = Struct.new(:x, :y)
+  
   class << self
     
     def forge(filename = nil, &block)

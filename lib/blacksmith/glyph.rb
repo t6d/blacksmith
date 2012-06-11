@@ -16,6 +16,9 @@ module Blacksmith
                                   :converts => :to_i,
                                   :default => 15
     
+    property :scale, :converts => :to_f,
+                     :accepts => lambda { |scale| scale > 0.0 }
+    
     def name
       File.basename(outline)
     end

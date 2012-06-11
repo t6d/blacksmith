@@ -14,8 +14,10 @@ module Blacksmith
       font = Font.new(@_attributes)
       
       @_glyphs.each do |name, attrs|
-        attrs[:scale] ||= font.scale
+        attrs[:scale]   ||= font.scale
+        attrs[:offset]  ||= font.offset
         attrs[:outline] ||= File.join(@_source, "#{name}.svg")
+        
         font << Glyph.new(attrs)
       end
       

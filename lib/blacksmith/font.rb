@@ -40,6 +40,9 @@ module Blacksmith
 
     property :scale, :converts => :to_f,
                      :accepts => lambda { |scale| scale > 0.0 }
+
+    property :offset, :converts => :to_f,
+                      :accepts => lambda { |offset| offset <= 1.0 and offset >= -1.0 }
     
     def identifier
       name.gsub(/\W+/, '_')

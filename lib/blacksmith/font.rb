@@ -60,12 +60,12 @@ class Blacksmith::Font
     
   end
   
-  def identifier
-    name.gsub(/\W+/, '')
-  end
-  
   def name
     super || [family, weight].join(' ')
+  end
+  
+  def identifier
+    name.gsub(/\W+/, '_').downcase
   end
   
   def basename

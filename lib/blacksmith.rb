@@ -1,9 +1,11 @@
 require 'smart_properties'
 require 'erb'
 require 'tempfile'
+require 'singleton'
 
 require 'blacksmith/font'
 require 'blacksmith/font_builder'
+require 'blacksmith/font_forge'
 require 'blacksmith/glyph'
 require 'blacksmith/version'
 
@@ -12,31 +14,22 @@ module Blacksmith
   class << self
     
     def forge(filename = nil, &block)
-      font = prepare_font(&block)
-      forge_font(font)
+      font         = create_font(&block)
+      instructions = create_forging_instructions(font)
+      
+      FontForge.execute(instructions)
     end
     
     private
     
-      def prepare_font(&block)
+      def create_font(&block)
         FontBuilder.new(&block).build
       end
       
-      def forge_font(font)
-        path = create_forging_instructions(font)
-        create_font_from_instructions(path)
-        File.unlink(path)
-      end
-      
       def create_forging_instructions(font)
-        script = Tempfile.new('fontforge-instructions')
-        
-        script << font.instance_exec(forging_template) do |template|
+        font.instance_exec(forging_template) do |template|
           template.result(binding)
         end
-        
-        script.close
-        script.path
       end
       
       def forging_template
@@ -47,12 +40,6 @@ module Blacksmith
       def root_directory
         File.expand_path('../..', __FILE__)
       end
-      
-      def create_font_from_instructions(path)
-        `fontforge -lang=py -script #{path}`
-      end
     
   end
-  
-  
 end

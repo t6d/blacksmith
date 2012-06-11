@@ -15,6 +15,13 @@ And then execute:
 Or install it yourself as:
 
     $ gem install blacksmith
+    
+## Pitfalls
+
+### SVG Viewport
+
+Make sure that all your SVGs contain a `viewBox` definition. Otherwise, weird
+things might happen.
 
 ## Usage
 

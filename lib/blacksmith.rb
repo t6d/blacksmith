@@ -35,8 +35,8 @@ module Blacksmith
       end
       
       def forging_template
-        template = File.read(File.join(root_directory, 'support', 'build.py.erb'))
         ERB.new(template, nil, '<>')
+        template = File.read(File.join(root_directory, 'support', 'forging_instructions.py.erb'))
       end
       
       def root_directory

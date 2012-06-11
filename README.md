@@ -1,6 +1,6 @@
 # Blacksmith
 
-TODO: Write a gem description
+Blacksmith uses FontForge to build fonts from SVG graphics.
 
 ## Installation
 

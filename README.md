@@ -23,6 +23,12 @@ Or install it yourself as:
 Make sure that all your SVGs contain a `viewBox` definition. Otherwise, weird
 things might happen.
 
+### OS X and ttfautohint
+
+If you don't have `ttfautohint` installed and don't want to compile it from
+source, you can grab a precompiled version from
+[SourceForge](http://sourceforge.net/projects/freetype/files/ttfautohint/).
+
 ## Usage
 
 TODO: Write usage instructions here

@@ -59,6 +59,7 @@ class Blacksmith
     end
     
     def convert_font
+      FontForge.execute(font.to_fontforge_conversion_instructions)
     end
 
 end

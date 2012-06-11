@@ -68,10 +68,19 @@ class Blacksmith::Font
     fontforge_build_instructions_template.result(binding)
   end
   
+  def to_fontforge_conversion_instructions
+    fontforge_conversion_instructions_template.result(binding)
+  end
+  
   private
   
     def fontforge_build_instructions_template
       template = File.read(File.join(Blacksmith.support_directory, 'fontforge_build_instructions.py.erb'))
+      ERB.new(template)
+    end
+    
+    def fontforge_conversion_instructions_template
+      template = File.read(File.join(Blacksmith.support_directory, 'fontforge_conversion_instructions.py.erb'))
       ERB.new(template)
     end
   

@@ -1,21 +1,31 @@
 class Blacksmith::FontBuilder
   class << self
     
-    def execute(&block)
-      new(&block).execute
+    def execute(*args, &block)
+      new(*args, &block).execute
     end
     
   end
   
-  def initialize(&block)
-    @_instructions = block
+  def initialize(filename = nil, &block)
+    raise "Expects filename or block" unless filename || block
+    raise "Expects either a block or a filename - not both" if filename and block
+    raise "File not found: #{filename}" unless filename && File.exist?(filename)
+    
+    @_instructions = block || File.read(filename)
+    
     @_attributes = {}
     @_glyphs = {}
     @_source = '.'
   end
   
   def execute
-    instance_eval(&@_instructions)
+    case @_instructions
+    when String
+      instance_eval(@_instructions)
+    when Proc
+      instance_eval(&@_instructions)
+    end
     
     font = Blacksmith::Font.new(@_attributes)
     

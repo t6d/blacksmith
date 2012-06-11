@@ -47,6 +47,7 @@ class Blacksmith
     
     def check_environment
       FontForge.check_dependency!
+      TTFAutoHint.check_dependency!
     end
     
     def forge_font
@@ -54,6 +55,7 @@ class Blacksmith
     end
     
     def auto_hint_font
+      TTFAutoHint.execute(font)
     end
     
     def convert_font
@@ -63,6 +65,7 @@ end
 
 require 'blacksmith/executable'
 require 'blacksmith/font_forge'
+require 'blacksmith/ttf_auto_hint'
 
 require 'blacksmith/font'
 require 'blacksmith/font_builder'

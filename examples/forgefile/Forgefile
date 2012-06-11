@@ -1,0 +1,4 @@
+family 'Blacksmith'
+source '../glyphs'
+
+glyph 'star', code: 0x0061

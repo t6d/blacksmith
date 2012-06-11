@@ -64,16 +64,14 @@ class Blacksmith::Font
     Blacksmith::Point.new(0, (ascent + descent) * baseline - descent)
   end
   
-  def to_fontforge_instructions
-    instance_exec(fontforge_instructions_template) do |template|
-      template.result(binding)
-    end
+  def to_fontforge_build_instructions
+    fontforge_build_instructions_template.result(binding)
   end
   
   private
   
-    def fontforge_instructions_template
-      template = File.read(File.join(Blacksmith.support_directory, 'fontforge_instructions.py.erb'))
+    def fontforge_build_instructions_template
+      template = File.read(File.join(Blacksmith.support_directory, 'fontforge_build_instructions.py.erb'))
       ERB.new(template)
     end
   

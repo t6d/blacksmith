@@ -51,7 +51,7 @@ class Blacksmith
     end
     
     def forge_font
-      FontForge.execute(font.to_fontforge_instructions)
+      FontForge.execute(font.to_fontforge_build_instructions)
     end
     
     def auto_hint_font

@@ -1,12 +1,14 @@
 class Blacksmith::Font
   include SmartProperties
   
-  property :name, :required => true,
-                  :converts => :to_s
-  
+  property :name, :converts => :to_s
+
   property :family, :required => true,
                     :converts => :to_s
-                    
+
+  property :weight, :required => true,
+                    :default => 'Regular'
+
   property :copyright, :converts => :to_s
   
   property :ascent, :required => true,
@@ -19,21 +21,11 @@ class Blacksmith::Font
                      :accepts => lambda { |number| number > 0 },
                      :default => 200
 
-  property :weight, :required => true,
-                    :default => 'Medium'
-                    
   property :version, :required => true,
                      :converts => :to_s,
                      :accepts => lambda { |v| /\d+\.\d+(\.\d+)?/.match(v) },
                      :default => '1.0'
-  
-  property :filename, :required => true,
-                      :converts => :to_s,
-                      :accepts => lambda { |target| 
-                        File.extname(target) == '.ttf' and 
-                        File.directory?(File.dirname(target)) 
-                      }
-                      
+
   property :baseline, :converts => :to_f,
                       :accepts => lambda { |baseline| baseline > 0.0 }
 
@@ -43,8 +35,41 @@ class Blacksmith::Font
   property :offset, :converts => :to_f,
                     :accepts => lambda { |offset| offset <= 1.0 and offset >= -1.0 }
   
+  property :source, :required => true,
+                    :converts => :to_s,
+                    :accepts => lambda { |path| File.directory?(path) },
+                    :default => 'glyphs'
+  
+  property :target, :required => true,
+                    :converts => :to_s,
+                    :accepts => lambda { |path| File.directory?(path) },
+                    :default => '.'
+  
+  [:ttf, :eot, :woff, :svg].each do |extension|
+    name = "#{extension}_path"
+    
+    property name, :converts => :to_s,
+                   :accepts => lambda { |filename| 
+                     File.extname(filename) == ".#{extension}" and 
+                     File.directory?(File.dirname(filename)) 
+                   }
+    
+    define_method(name) do
+      super() || File.join(target, "#{basename}.#{extension}")
+    end
+    
+  end
+  
   def identifier
-    name.gsub(/\W+/, '_')
+    name.gsub(/\W+/, '')
+  end
+  
+  def name
+    super || [family, weight].join(' ')
+  end
+  
+  def basename
+    [family.gsub(/\W+/, ''), weight.gsub(/\W+/, '')].join('-')
   end
   
   def glyphs

@@ -1,6 +1,6 @@
 import fontforge
 
-font = fontforge.open("<%= filename %>")
-font.generate("<%= File.basename(filename, File.extname(filename)) %>.svg")
-font.generate("<%= File.basename(filename, File.extname(filename)) %>.eot")
-font.generate("<%= File.basename(filename, File.extname(filename)) %>.woff")
+font = fontforge.open("<%= ttf_path %>")
+font.generate("<%= svg_path %>")
+font.generate("<%= eot_path %>")
+font.generate("<%= woff_path %>")

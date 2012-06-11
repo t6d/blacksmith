@@ -7,9 +7,9 @@ class Blacksmith::TTFAutoHint < Blacksmith::Executable
   def execute(font)
     check_dependency!
     
-    source = font.filename
+    source = font.ttf_path
     target = begin
-      f = Tempfile.new(File.basename(font.filename))
+      f = Tempfile.new(File.basename(font.ttf_path))
       f.close
       f.path
     end 

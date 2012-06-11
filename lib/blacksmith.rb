@@ -10,7 +10,13 @@ class Blacksmith
   class DependencyMissing < Error; end
 
   class << self
-
+    
+    def run(args = [])
+      if args.empty?
+        new(File.join(Dir.pwd, 'Forgefile')).forge
+      end
+    end
+    
     def forge(*args, &block)
       new(*args, &block).forge
     end
@@ -26,7 +32,7 @@ class Blacksmith
   end
   
   def initialize(filename = nil, &block)
-    @font = build_font(&block)
+    @font = FontBuilder.execute(filename, &block)
   end
   
   def forge
@@ -40,10 +46,6 @@ class Blacksmith
   protected
     
     attr_reader :font
-    
-    def build_font(&block)
-      FontBuilder.execute(&block)
-    end
     
     def check_environment
       FontForge.check_dependency!

@@ -4,12 +4,11 @@ class Blacksmith::TTFAutoHint < Blacksmith::Executable
     'ttfautohint'
   end
   
-  def execute(font)
+  def execute(source)
     check_dependency!
     
-    source = font.ttf_path
     target = begin
-      f = Tempfile.new(File.basename(font.ttf_path))
+      f = Tempfile.new(File.basename(source))
       f.close
       f.path
     end 

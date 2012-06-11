@@ -55,7 +55,7 @@ class Blacksmith
     end
     
     def auto_hint_font
-      TTFAutoHint.execute(font)
+      TTFAutoHint.execute(font.ttf_path)
     end
     
     def convert_font

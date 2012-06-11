@@ -1,58 +1,75 @@
 require 'smart_properties'
 require 'erb'
 require 'tempfile'
+require 'singleton'
+
+class Blacksmith
+  Point = Struct.new(:x, :y)
+  
+  class Error < ::RuntimeError; end
+  class DependencyMissing < Error; end
+
+  class << self
+
+    def forge(*args, &block)
+      new(*args, &block).forge
+    end
+    
+    def root_directory
+      File.expand_path('../..', __FILE__)
+    end
+    
+    def support_directory
+      File.join(root_directory, 'support')
+    end
+
+  end
+  
+  def initialize(filename = nil, &block)
+    @font = build_font(&block)
+  end
+  
+  def forge
+    check_environment
+    
+    forge_font
+    auto_hint_font
+    convert_font
+  end
+
+  protected
+    
+    attr_reader :font
+    
+    def build_font(&block)
+      FontBuilder.execute(&block)
+    end
+    
+    def check_environment
+      FontForge.check_dependency!
+      TTFAutoHint.check_dependency!
+    end
+    
+    def forge_font
+      FontForge.execute(font.to_fontforge_build_instructions)
+    end
+    
+    def auto_hint_font
+      TTFAutoHint.execute(font.ttf_path)
+    end
+    
+    def convert_font
+      FontForge.execute(font.to_fontforge_conversion_instructions)
+    end
+
+end
+
+require 'blacksmith/executable'
+require 'blacksmith/font_forge'
+require 'blacksmith/ttf_auto_hint'
 
 require 'blacksmith/font'
 require 'blacksmith/font_builder'
 require 'blacksmith/glyph'
-require 'blacksmith/version'
 
-module Blacksmith
-  
-  class << self
-    
-    def forge(filename = nil, &block)
-      font = prepare_font(&block)
-      forge_font(font)
-    end
-    
-    private
-    
-      def prepare_font(&block)
-        FontBuilder.new(&block).build
-      end
-      
-      def forge_font(font)
-        path = create_forging_instructions(font)
-        create_font_from_instructions(path)
-        File.unlink(path)
-      end
-      
-      def create_forging_instructions(font)
-        script = Tempfile.new('fontforge-instructions')
-        
-        script << font.instance_exec(forging_template) do |template|
-          template.result(binding)
-        end
-        
-        script.close
-        script.path
-      end
-      
-      def forging_template
-        template = File.read(File.join(root_directory, 'support', 'build.py.erb'))
-        ERB.new(template, nil, '<>')
-      end
-      
-      def root_directory
-        File.expand_path('../..', __FILE__)
-      end
-      
-      def create_font_from_instructions(path)
-        `fontforge -lang=py -script #{path}`
-      end
-    
-  end
-  
-  
-end
+require 'blacksmith/version'

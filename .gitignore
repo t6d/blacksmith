@@ -18,3 +18,8 @@ test/version_tmp
 tmp
 
 .DS_Store
+examples/*.ttf
+examples/*.svg
+examples/*.afm
+examples/*.eot
+examples/*.woff

@@ -1,3 +1,3 @@
-module Blacksmith
-  VERSION = "0.0.1"
+class Blacksmith
+  VERSION = "0.1.0"
 end

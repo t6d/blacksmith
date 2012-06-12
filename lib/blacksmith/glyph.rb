@@ -21,8 +21,11 @@ class Blacksmith::Glyph
   property :offset, :converts => :to_f,
                     :accepts => lambda { |offset| offset <= 1.0 and offset >= -1.0 }
   
-  def name
+  def file_name
     File.basename(outline)
   end
-  
+
+  def name
+    File.basename(outline, '.svg')
+  end
 end

@@ -45,7 +45,7 @@ class Blacksmith::Font
                     :accepts => lambda { |path| File.directory?(path) },
                     :default => '.'
   
-  [:ttf, :eot, :woff, :svg].each do |extension|
+  [:ttf, :eot, :woff, :svg, :css].each do |extension|
     name = "#{extension}_path"
     
     property name, :converts => :to_s,

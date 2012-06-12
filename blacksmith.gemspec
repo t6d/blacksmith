@@ -2,8 +2,8 @@
 require File.expand_path('../lib/blacksmith/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Konstantin Tennhard"]
-  gem.email         = ["me@t6d.de"]
+  gem.authors       = ["Konstantin Tennhard", "Benedikt Deicke"]
+  gem.email         = ["me@t6d.de", "benedikt@synatic.net"]
   gem.summary       = %q{Blacksmith uses FontForge to build fonts from SVG graphics}
   gem.homepage      = "http://github.com/t6d/blacksmith"
 

@@ -10,13 +10,11 @@ class Blacksmith::FontBuilder
   def initialize(filename = nil, &block)
     raise "Expects filename or block" unless filename || block
     raise "Expects either a block or a filename - not both" if filename and block
-    raise "File not found: #{filename}" unless filename && File.exist?(filename)
+    raise "File not found: #{filename}" if filename && !File.exist?(filename)
     
     @_instructions = block || File.read(filename)
-    
     @_attributes = {}
     @_glyphs = {}
-    @_source = '.'
   end
   
   def execute
@@ -29,10 +27,10 @@ class Blacksmith::FontBuilder
     
     font = Blacksmith::Font.new(@_attributes)
     
-    @_glyphs.each do |name, attrs|
-      attrs[:scale]   ||= font.scale
-      attrs[:offset]  ||= font.offset
-      attrs[:outline] ||= File.join(font.source, "#{name}.svg")
+    @_glyphs.each do |filename, attrs|
+      attrs[:scale]  ||= font.scale
+      attrs[:offset] ||= font.offset
+      attrs[:source] ||= File.join(font.source, filename)
       
       font << Blacksmith::Glyph.new(attrs)
     end
@@ -40,8 +38,8 @@ class Blacksmith::FontBuilder
     font
   end
 
-  def glyph(name, attrs)
-    @_glyphs[name] = attrs
+  def glyph(filename, attrs)
+    @_glyphs[filename] = attrs
   end
   
   def method_missing(name, *args)

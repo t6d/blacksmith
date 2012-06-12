@@ -1,12 +1,15 @@
 class Blacksmith::Glyph
   include SmartProperties
+
+  property :name, :converts => :to_s
   
-  property :outline, :required => true,
-                     :converts => :to_s,
-                     :accepts => lambda { |filename| File.exist?(filename) }
-  
-  property :code, :required => true
-  
+  property :code, :required => true,
+                  :converts => :to_i
+
+  property :source, :required => true,
+                    :converts => :to_s,
+                    :accepts => lambda { |filename| File.exist?(filename) }
+
   property :left_side_bearing, :required => true,
                                :converts => :to_i,
                                :default => 15
@@ -20,12 +23,9 @@ class Blacksmith::Glyph
   
   property :offset, :converts => :to_f,
                     :accepts => lambda { |offset| offset <= 1.0 and offset >= -1.0 }
-  
-  def file_name
-    File.basename(outline)
-  end
 
   def name
-    File.basename(outline, '.svg')
+    super || File.basename(source, File.extname(source))
   end
+  
 end

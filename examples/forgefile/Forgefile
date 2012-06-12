@@ -1,4 +1,4 @@
 family 'Blacksmith'
 source '../glyphs'
 
-glyph 'star', code: 0x0061
+glyph 'star.svg', code: 0x0061

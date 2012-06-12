@@ -10,7 +10,7 @@ class Blacksmith::FontBuilder
   def initialize(filename = nil, &block)
     raise "Expects filename or block" unless filename || block
     raise "Expects either a block or a filename - not both" if filename and block
-    raise "File not found: #{filename}" unless filename && File.exist?(filename)
+    raise "File not found: #{filename}" if filename && !File.exist?(filename)
     
     @_instructions = block || File.read(filename)
     @_attributes = {}

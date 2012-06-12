@@ -23,4 +23,6 @@ examples/**/*.svg
 examples/**/*.afm
 examples/**/*.eot
 examples/**/*.woff
+examples/**/*.html
+examples/**/*.css
 !examples/glyphs/*.svg

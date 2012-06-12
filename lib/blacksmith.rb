@@ -41,6 +41,8 @@ class Blacksmith
     forge_font
     auto_hint_font
     convert_font
+    forge_css
+    forge_html
   end
 
   protected
@@ -64,11 +66,20 @@ class Blacksmith
       FontForge.execute(font.to_fontforge_conversion_instructions)
     end
 
+    def forge_css
+      CSSForge.execute(font)
+    end
+
+    def forge_html
+      HTMLForge.execute(font)
+    end
 end
 
 require 'blacksmith/executable'
 require 'blacksmith/font_forge'
 require 'blacksmith/ttf_auto_hint'
+require 'blacksmith/css_forge'
+require 'blacksmith/html_forge'
 
 require 'blacksmith/font'
 require 'blacksmith/font_builder'

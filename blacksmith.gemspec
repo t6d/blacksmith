@@ -15,4 +15,5 @@ Gem::Specification.new do |gem|
   gem.version       = Blacksmith::VERSION
   
   gem.add_dependency "smart_properties", "~> 1.0"
+  gem.add_development_dependency "rspec", "~> 2.10"
 end

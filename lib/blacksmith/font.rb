@@ -69,7 +69,7 @@ class Blacksmith::Font
   end
   
   def basename
-    [family.gsub(/\W+/, ''), weight.gsub(/\W+/, '')].join('-')
+    name.gsub(/\W+/, '-')
   end
   
   def glyphs

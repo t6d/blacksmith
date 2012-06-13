@@ -44,7 +44,7 @@ font.weight     = "<%= weight %>"
 <% for glyph in glyphs do %>
 # <%= glyph.name %>
 c = font.createChar(<%= glyph.code %>)
-c.importOutlines("<%= glyph.outline %>")
+c.importOutlines("<%= glyph.source %>")
 c.left_side_bearing = <%= glyph.left_side_bearing %>
 c.right_side_bearing = <%= glyph.right_side_bearing %>
 c.simplify()

@@ -26,3 +26,4 @@ examples/**/*.woff
 examples/**/*.html
 examples/**/*.css
 !examples/glyphs/*.svg
+.rspec

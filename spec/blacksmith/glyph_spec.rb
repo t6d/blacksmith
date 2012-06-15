@@ -53,14 +53,20 @@ describe Blacksmith::Glyph do
   describe '#scale=' do
     context 'when value is greater than zero' do
       it 'should not raise an error' do
-        expect { subject.scale = 0.00001 }.to_not raise_error ArgumentError
-      end    
+        expect { subject.scale = 0.0001 }.to_not raise_error ArgumentError
+      end
     end
   
     context 'when value is zero' do
       it 'should raise an error' do
         expect { subject.scale = 0.0 }.to raise_error ArgumentError
-      end    
+      end
+    end
+
+    context 'when value is lower than zero' do
+      it 'should not raise an error' do
+        expect { subject.scale = -0.0001 }.to raise_error ArgumentError
+      end
     end
   end
 

@@ -67,19 +67,18 @@ class Blacksmith
     end
 
     def forge_css
-      CSSForge.execute(font)
+      TemplateForge.execute(font, :css)
     end
 
     def forge_html
-      HTMLForge.execute(font)
+      TemplateForge.execute(font, :html)
     end
 end
 
 require 'blacksmith/executable'
 require 'blacksmith/font_forge'
 require 'blacksmith/ttf_auto_hint'
-require 'blacksmith/css_forge'
-require 'blacksmith/html_forge'
+require 'blacksmith/template_forge'
 
 require 'blacksmith/font'
 require 'blacksmith/font_builder'

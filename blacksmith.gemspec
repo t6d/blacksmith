@@ -17,4 +17,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency "smart_properties", "~> 1.0"
   gem.add_dependency "thor", "~> 0.15"
   gem.add_development_dependency "rspec", "~> 2.10"
+  gem.add_development_dependency "fakefs", "~> 0.4"
 end

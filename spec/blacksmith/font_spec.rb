@@ -22,15 +22,11 @@ describe Blacksmith::Font do
   it { should have_property(:baseline) }
   it { should have_property(:scale) }
   it { should have_property(:offset) }
-  it { should have_property(:source) }
-  it { should have_property(:target) }
 
   its(:weight) { should eq('Regular') }
   its(:ascent) { should eq(800) }
   its(:descent) { should eq(200) }
   its(:version) { should eq('1.0') }
-  its(:source) { should eq('glyphs') }
-  its(:target) { should eq('.') }
 
   describe '#name' do
     context 'when no name is given' do
@@ -202,38 +198,6 @@ describe Blacksmith::Font do
       it 'should raise an error' do
         expect { subject.offset = 1.0001 }.to raise_error ArgumentError
       end    
-    end
-  end
-
-  describe '#source=' do
-    context 'when directory exists' do
-      it 'should not raise an error' do
-        expect { subject.source = 'source' }.to_not raise_error ArgumentError
-      end
-    end
-  
-    context 'when directory does not exist' do
-      before { File.stub(:directory? => false) }
-  
-      it 'should raise an error' do
-        expect { subject.source = 'missing' }.to raise_error ArgumentError
-      end
-    end
-  end
-
-  describe '#source=' do
-    context 'when directory exists' do
-      it 'should not raise an error' do
-        expect { subject.target = 'source' }.to_not raise_error ArgumentError
-      end
-    end
-
-    context 'when directory does not exist' do
-      before { File.stub(:directory? => false) }
-
-      it 'should raise an error' do
-        expect { subject.target = 'missing' }.to raise_error ArgumentError
-      end
     end
   end
 

@@ -35,31 +35,6 @@ class Blacksmith::Font
   property :offset, :converts => :to_f,
                     :accepts => lambda { |offset| offset <= 1.0 and offset >= -1.0 }
   
-  property :source, :required => true,
-                    :converts => :to_s,
-                    :accepts => lambda { |path| File.directory?(path) },
-                    :default => 'glyphs'
-  
-  property :target, :required => true,
-                    :converts => :to_s,
-                    :accepts => lambda { |path| File.directory?(path) },
-                    :default => '.'
-  
-  [:ttf, :eot, :woff, :svg, :css, :html].each do |extension|
-    name = "#{extension}_path"
-    
-    property name, :converts => :to_s,
-                   :accepts => lambda { |filename| 
-                     File.extname(filename) == ".#{extension}" and 
-                     File.directory?(File.dirname(filename)) 
-                   }
-    
-    define_method(name) do
-      super() || File.join(target, "#{basename}.#{extension}")
-    end
-    
-  end
-  
   def name
     super || [family, weight].join(' ')
   end
@@ -88,25 +63,5 @@ class Blacksmith::Font
   def origin
     Blacksmith::Point.new(0, (ascent + descent) * baseline - descent)
   end
-  
-  def to_fontforge_build_instructions
-    fontforge_build_instructions_template.result(binding)
-  end
-  
-  def to_fontforge_conversion_instructions
-    fontforge_conversion_instructions_template.result(binding)
-  end
-  
-  private
-  
-    def fontforge_build_instructions_template
-      template = File.read(File.join(Blacksmith.support_directory, 'fontforge_build_instructions.py.erb'))
-      ERB.new(template)
-    end
-    
-    def fontforge_conversion_instructions_template
-      template = File.read(File.join(Blacksmith.support_directory, 'fontforge_conversion_instructions.py.erb'))
-      ERB.new(template)
-    end
-  
+
 end

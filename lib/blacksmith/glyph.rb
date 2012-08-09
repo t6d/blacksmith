@@ -1,3 +1,5 @@
+require 'smart_properties'
+
 class Blacksmith::Glyph
   include SmartProperties
 

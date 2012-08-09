@@ -1,3 +1,5 @@
+require 'tempfile'
+
 class Blacksmith::TTFAutoHint < Blacksmith::Executable
   
   def executable

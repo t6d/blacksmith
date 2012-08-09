@@ -1,3 +1,5 @@
+require 'tempfile'
+
 class Blacksmith::FontForge < Blacksmith::Executable
   
   def executable

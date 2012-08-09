@@ -1,3 +1,5 @@
+require 'singleton'
+
 class Blacksmith::Executable
   include Singleton
   

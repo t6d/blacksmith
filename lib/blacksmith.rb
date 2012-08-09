@@ -1,78 +1,9 @@
-require 'smart_properties'
-require 'erb'
-require 'tempfile'
-require 'singleton'
-
-class Blacksmith
+module Blacksmith
   Point = Struct.new(:x, :y)
-  
+
   class Error < ::RuntimeError; end
   class DependencyMissing < Error; end
 
-  class << self
-    
-    def run(args = [])
-      if args.empty?
-        new(File.join(Dir.pwd, 'Forgefile')).forge
-      end
-    end
-    
-    def forge(*args, &block)
-      new(*args, &block).forge
-    end
-    
-    def root_directory
-      File.expand_path('../..', __FILE__)
-    end
-    
-    def support_directory
-      File.join(root_directory, 'support')
-    end
-
-  end
-  
-  def initialize(filename = nil, &block)
-    @font = FontBuilder.execute(filename, &block)
-  end
-  
-  def forge
-    check_environment
-    
-    forge_font
-    auto_hint_font
-    convert_font
-    forge_css
-    forge_html
-  end
-
-  protected
-    
-    attr_reader :font
-    
-    def check_environment
-      FontForge.check_dependency!
-      TTFAutoHint.check_dependency!
-    end
-    
-    def forge_font
-      FontForge.execute(font.to_fontforge_build_instructions)
-    end
-    
-    def auto_hint_font
-      TTFAutoHint.execute(font.ttf_path)
-    end
-    
-    def convert_font
-      FontForge.execute(font.to_fontforge_conversion_instructions)
-    end
-
-    def forge_css
-      TemplateForge.execute(font, :css)
-    end
-
-    def forge_html
-      TemplateForge.execute(font, :html)
-    end
 end
 
 require 'blacksmith/executable'

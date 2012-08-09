@@ -6,14 +6,15 @@ module Blacksmith
 
 end
 
-require 'blacksmith/runner'
 require 'blacksmith/executable'
 require 'blacksmith/font_forge'
 require 'blacksmith/ttf_auto_hint'
 require 'blacksmith/template_forge'
 
 require 'blacksmith/font'
-require 'blacksmith/font_builder'
 require 'blacksmith/glyph'
 
 require 'blacksmith/version'
+
+require 'blacksmith/runner'
+require 'blacksmith/dsl'

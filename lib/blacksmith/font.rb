@@ -6,6 +6,7 @@ class Blacksmith::Font
   property :name, :converts => :to_s
 
   property :family, :required => true,
+                    :default => 'Blacksmith Font',
                     :converts => :to_s
 
   property :weight, :required => true,

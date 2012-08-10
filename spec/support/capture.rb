@@ -5,7 +5,7 @@ RSpec.configure do |config|
     yield
     result = eval("$#{stream}").string
   ensure
-    eval("$#{stream} = #{stream.upcase}")
+    eval("$#{stream} = #{stream.to_s.upcase}")
   end
 
 end

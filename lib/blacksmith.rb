@@ -8,8 +8,6 @@ end
 
 require 'blacksmith/executable'
 require 'blacksmith/font_forge'
-require 'blacksmith/ttf_auto_hint'
-require 'blacksmith/template_forge'
 
 require 'blacksmith/font'
 require 'blacksmith/glyph'

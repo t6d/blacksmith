@@ -56,7 +56,7 @@ describe Blacksmith::Glyph do
         expect { subject.scale = 0.0001 }.to_not raise_error ArgumentError
       end
     end
-  
+
     context 'when value is zero' do
       it 'should raise an error' do
         expect { subject.scale = 0.0 }.to raise_error ArgumentError
@@ -88,7 +88,7 @@ describe Blacksmith::Glyph do
         expect { subject.offset = 1.0 }.to_not raise_error ArgumentError
       end
     end
-    
+
     context 'when value is lower than -1.0' do
       it 'should not raise an error' do
         expect { subject.offset = 0.9999 }.to_not raise_error ArgumentError
@@ -98,13 +98,13 @@ describe Blacksmith::Glyph do
     context 'when value lower than -1.0' do
       it 'should raise an error' do
         expect { subject.offset = -1.0001 }.to raise_error ArgumentError
-      end    
+      end
     end
 
     context 'when value greater than 1.0' do
       it 'should raise an error' do
         expect { subject.offset = 1.0001 }.to raise_error ArgumentError
-      end    
+      end
     end
   end
 end

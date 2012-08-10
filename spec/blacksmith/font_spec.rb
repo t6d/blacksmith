@@ -51,7 +51,7 @@ describe Blacksmith::Font do
   describe '#basename' do
     context 'when no identifier is given' do
       before { properties.delete(:basename) }
-  
+
       it 'should derive the basename from the name' do
         subject.basename.should eq('Spec-Regular')
       end
@@ -62,7 +62,7 @@ describe Blacksmith::Font do
     context 'when value is greater than zero' do
       it 'should not raise an error' do
         expect { subject.ascent = 1 }.to_not raise_error ArgumentError
-      end    
+      end
     end
 
     context 'when value is zero' do
@@ -82,15 +82,15 @@ describe Blacksmith::Font do
     context 'when value is greater than zero' do
       it 'should not raise an error' do
         expect { subject.descent = 1 }.to_not raise_error ArgumentError
-      end    
+      end
     end
-  
+
     context 'when value is zero' do
       it 'should raise an error' do
         expect { subject.descent = 0 }.to raise_error ArgumentError
       end
     end
-  
+
     context 'when value is lower than zero' do
       it 'should not raise an error' do
         expect { subject.descent = -1 }.to raise_error ArgumentError
@@ -102,7 +102,7 @@ describe Blacksmith::Font do
     context 'when value is a valid version' do
       it 'should not raise an error' do
         expect { subject.version = '1.2.3' }.to_not raise_error ArgumentError
-      end    
+      end
     end
 
     context 'when value is not a valid version' do
@@ -129,13 +129,13 @@ describe Blacksmith::Font do
         expect { subject.baseline = 0.0001 }.to_not raise_error ArgumentError
       end
     end
-  
+
     context 'when value is zero' do
       it 'should raise an error' do
         expect { subject.baseline = 0.0 }.to raise_error ArgumentError
       end
     end
-  
+
     context 'when value is lower than zero' do
       it 'should not raise an error' do
         expect { subject.baseline = -0.0001 }.to raise_error ArgumentError
@@ -169,35 +169,35 @@ describe Blacksmith::Font do
         expect { subject.offset = -1.0 }.to_not raise_error ArgumentError
       end
     end
-  
+
     context 'when value is greater than -1.0' do
       it 'should not raise an error' do
         expect { subject.offset = -0.9999 }.to_not raise_error ArgumentError
       end
     end
-  
+
     context 'when value is 1.0' do
       it 'should not raise an error' do
         expect { subject.offset = 1.0 }.to_not raise_error ArgumentError
       end
     end
-    
+
     context 'when value is lower than -1.0' do
       it 'should not raise an error' do
         expect { subject.offset = 0.9999 }.to_not raise_error ArgumentError
       end
     end
-  
+
     context 'when value lower than -1.0' do
       it 'should raise an error' do
         expect { subject.offset = -1.0001 }.to raise_error ArgumentError
-      end    
+      end
     end
-  
+
     context 'when value greater than 1.0' do
       it 'should raise an error' do
         expect { subject.offset = 1.0001 }.to raise_error ArgumentError
-      end    
+      end
     end
   end
 

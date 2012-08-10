@@ -7,18 +7,18 @@ describe Blacksmith::Runner do
       file 'source/glyph.svg'
       file 'Forgefile', <<-EOF
         name 'My Font'
-  
+
         glyph 'glyph.svg', :code => 0x100
       EOF
     end
 
     context 'with default support files' do
       before { capture(:stdout) { subject.generate } }
-  
+
       it 'should generate a css file' do
         File.file?('build/My-Font.css').should be_true
       end
-  
+
       it 'should generate a html file' do
         File.file?('build/My-Font.html').should be_true
       end
@@ -49,14 +49,14 @@ describe Blacksmith::Runner do
     it 'should create a build directory' do
       File.directory?('myfont/build').should be_true
     end
-    
+
     it 'should create a source directory' do
       File.directory?('myfont/source').should be_true
     end
-    
+
     it 'should create a Forgefile' do
       File.read('myfont/Forgefile').should eq("family 'myfont'\n")
     end
   end
-  
+
 end

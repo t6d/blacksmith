@@ -2,7 +2,7 @@ require 'smart_properties'
 
 class Blacksmith::Font
   include SmartProperties
-  
+
   property :name, :converts => :to_s
 
   property :family, :required => true,
@@ -13,12 +13,12 @@ class Blacksmith::Font
                     :default => 'Regular'
 
   property :copyright, :converts => :to_s
-  
+
   property :ascent, :required => true,
                     :converts => :to_i,
                     :accepts => lambda { |number| number > 0 },
                     :default => 800
-                    
+
   property :descent, :required => true,
                      :converts => :to_i,
                      :accepts => lambda { |number| number > 0 },
@@ -37,32 +37,32 @@ class Blacksmith::Font
 
   property :offset, :converts => :to_f,
                     :accepts => lambda { |offset| offset <= 1.0 and offset >= -1.0 }
-  
+
   def name
     super || [family, weight].join(' ')
   end
-  
+
   def identifier
     name.gsub(/\W+/, '_').downcase
   end
-  
+
   def basename
     name.gsub(/\W+/, '-')
   end
-  
+
   def glyphs
     (@glyphs || []).dup
   end
-  
+
   def <<(glyph)
     @glyphs ||= []
     @glyphs << glyph
   end
-  
+
   def baseline
     super or (1.0 * descent) / (ascent + descent)
   end
-  
+
   def origin
     Blacksmith::Point.new(0, (ascent + descent) * baseline - descent)
   end

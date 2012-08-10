@@ -19,7 +19,7 @@ module FileHelper
         FileUtils.remove_entry_secure tempdir
       end
     end
-  
+
   end
 
 end

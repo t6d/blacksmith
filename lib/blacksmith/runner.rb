@@ -26,7 +26,7 @@ class Blacksmith::Runner < Thor
     template('font.css.tt', "build/#{font.basename}.css")
     template('font.html.tt', "build/#{font.basename}.html")
   end
-  
+
   desc "version", "Displays the version"
   def version
     say "Blacksmith v#{Blacksmith::VERSION}"

@@ -33,9 +33,9 @@ font = fontforge.font()
 
 font.encoding   = 'UnicodeFull'
 font.version    = "<%= font.version %>"
-font.fontname   = "<%= font.identifier %>"
+font.fontname   = "<%= font.name %>"
 font.fullname   = "<%= font.name %>"
-font.familyname = "<%= font.family %>"
+font.familyname = "<%= font.name %>"
 font.copyright  = "<%= font.copyright %>"
 font.ascent     = <%= font.ascent %>
 font.descent    = <%= font.descent %>
@@ -53,7 +53,8 @@ c.round()
 <%= "position(c, #{glyph.offset})" if glyph.offset %>
 <% end %>
 
-font.generate("<%= font.basename %>.ttf")
-font.generate("<%= font.basename %>.svg")
-font.generate("<%= font.basename %>.eot")
-font.generate("<%= font.basename %>.woff")
+font.autoHint
+
+font.generate("build/<%= font.basename %>.ttf")
+font.generate("build/<%= font.basename %>.svg")
+font.generate("build/<%= font.basename %>.woff")

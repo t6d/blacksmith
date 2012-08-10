@@ -1,9 +1,9 @@
 @font-face {
   font-family: '<%= font.family %>';
-  src: url('<%= font.name %>.eot');
-  src: url('<%= font.name %>.eot?#iefix') format('embedded-opentype'),
-       url('<%= font.name %>.ttf') format('truetype'),
-       url('<%= font.name %>.svg#<%= font.identifier %>') format('svg');
+  src: url('<%= font.basename %>.eot');
+  src: url('<%= font.basename %>.eot?#iefix') format('embedded-opentype'),
+       url('<%= font.basename %>.ttf') format('truetype'),
+       url('<%= font.basename %>.svg#<%= font.identifier %>') format('svg');
   font-weight: <%= font.weight %>;
   font-style: normal;
 }

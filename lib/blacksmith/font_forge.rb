@@ -1,42 +1,53 @@
 require 'tempfile'
 
-class Blacksmith::FontForge < Blacksmith::Executable
+class Blacksmith::FontForge
+
+  def self.execute!(path)
+    new(path).execute!
+  end
+
+  def initialize(path)
+    @path = path
+  end
+
+  def execute!
+    raise Blacksmith::DependencyMissing, instructions unless installed?
+
+    silence do
+      system(executable, '-lang=py', '-script', @path)
+    end
+  end
+
+private
+
+  def installed?
+    @installed unless @installed.nil?
+
+    paths      = ENV['PATH'].split(File::PATH_SEPARATOR)
+    extensions = ENV['PATHEXT'] ? ENV['PATHEXT'].split(File::PATH_SEPARATOR) : ['']
+
+    @installed = !!paths.find do |path|
+      extensions.find do |ext|
+        File.executable?(File.join(path, "#{executable}#{ext}"))
+      end
+    end
+  end
+
+  def instructions
+    "FontForge is not installed!"
+  end
 
   def executable
     'fontforge'
   end
 
-  def execute(file_or_instructions)
-    check_dependency!
-
-    case file_or_instructions
-    when String
-      with_temporary_instuctions_file(file_or_instructions) do |path|
-        execute!(path)
-      end
-    when File
-      path = file_or_instructions.path
-      execute!(path)
-    else
-      raise ArgumentError, "FontForge#execute expects a File or String"
-    end
+  def silence
+    err = $stderr.dup
+    $stderr.reopen('/dev/null')
+    yield
+  ensure
+    $stderr.close
+    $stderr = err
   end
-
-  private
-
-    def execute!(path)
-      system(executable, '-lang=py', '-script', path)
-    end
-
-    def with_temporary_instuctions_file(instructions)
-      script = Tempfile.new('fontforge-instructions')
-      script.puts(instructions)
-      script.close
-
-      yield script.path
-    ensure
-      script.close unless script.closed?
-      script.unlink
-    end
 
 end

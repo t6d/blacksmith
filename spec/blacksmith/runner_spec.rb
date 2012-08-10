@@ -4,6 +4,7 @@ describe Blacksmith::Runner do
 
   describe '#generate' do
     before do
+      Blacksmith::FontForge.any_instance.stub(:execute!)
       file 'source/glyph.svg'
       file 'Forgefile', <<-EOF
         name 'My Font'

@@ -6,7 +6,6 @@ module Blacksmith
 
 end
 
-require 'blacksmith/executable'
 require 'blacksmith/font_forge'
 
 require 'blacksmith/font'

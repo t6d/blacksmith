@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Blacksmith::DSL do
 
   subject { described_class.new(font) }
-  let(:font) { mock(:font, :glyphs => []) }
+  let(:font) { mock(:font, :<< => true) }
 
   describe '.evaluate' do
     it 'should return an instace of Blacksmith::Font' do
@@ -61,9 +61,8 @@ describe Blacksmith::DSL do
     before { Blacksmith::Glyph.stub(:new).and_return(glyph) }
 
     it 'should add the glyph to the font' do
-      expect do
-        subject.glyph 'glyph.svg'
-      end.to change { font.glyphs.count }.from(0).to(1)
+      font.should_receive(:<<).with(glyph)
+      subject.glyph 'glyph.svg'
     end
 
     it 'should pass any additional options to the Blacksmith::Glyph initializer' do

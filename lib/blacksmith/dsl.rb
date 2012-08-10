@@ -38,7 +38,7 @@ class Blacksmith::DSL
   def glyph(filename, options = {})
     options[:source] = File.join('source', filename)
     glyph = Blacksmith::Glyph.new(options)
-    @_font.glyphs << glyph
+    @_font << glyph
   end
 
 end

@@ -38,6 +38,11 @@ class Blacksmith::Font
   property :offset, :converts => :to_f,
                     :accepts => lambda { |offset| offset <= 1.0 and offset >= -1.0 }
 
+  def initialize(*args)
+    super(*args)
+    @glyphs = []
+  end
+
   def name
     super || [family, weight].join(' ')
   end
@@ -51,11 +56,10 @@ class Blacksmith::Font
   end
 
   def glyphs
-    (@glyphs || []).dup
+    @glyphs.dup
   end
 
   def <<(glyph)
-    @glyphs ||= []
     @glyphs << glyph
   end
 

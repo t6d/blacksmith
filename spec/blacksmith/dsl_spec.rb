@@ -48,7 +48,7 @@ describe Blacksmith::DSL do
     describe "##{property}" do
       it 'should set the font family' do
         font.should_receive("#{property}=").with(:value)
-        subject.public_send(property, :value)
+        subject.send(property, :value)
       end
     end
   end

@@ -31,7 +31,7 @@ class Blacksmith::DSL
 
   Blacksmith::Font.properties.each do |name, property|
     define_method(name) do |value|
-      @_font.public_send("#{name}=", value)
+      @_font.send("#{name}=", value)
     end
   end
 

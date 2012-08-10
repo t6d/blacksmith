@@ -3,7 +3,7 @@
   <head>
     <meta charset=utf-8 />
     <title><%= font.name %></title>
-    <link rel="stylesheet" href="<%= File.basename(font.css_path) %>" />
+    <link rel="stylesheet" href="<%= font.name %>.css" />
   </head>
   <body>
     <table>

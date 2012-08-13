@@ -72,12 +72,9 @@ You may add more templates or even override every template by creating a `suppor
 Make sure that all your SVGs contain a `viewBox` definition. Otherwise, weird
 things might happen.
 
-### OS X and ttfautohint
+### EOT generation
 
-If you don't have `ttfautohint` installed and don't want to compile it from
-source, you can grab a precompiled version from
-[SourceForge](http://sourceforge.net/projects/freetype/files/ttfautohint/).
-
+FontForge cannot generate EOT files. Therefore you'll run into issues displaying the fonts in Internet Explorer 8. For now use a tool like `ttf2eot` to convert the generated TTF file into a valid EOT file.
 
 ## Contributing
 

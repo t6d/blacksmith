@@ -33,8 +33,10 @@ class Blacksmith::Runner < Thor
       say_status :create, "build/#{font.basename}.woff"
     end
 
-    template('font.css.tt', "build/#{font.basename}.css")
-    template('font.html.tt', "build/#{font.basename}.html")
+    templates.each do |template|
+      ext = template.gsub(/font\.(\w+)\.tt/, '\1')
+      template(template, "build/#{font.basename}.#{ext}")
+    end
   end
 
   desc "version", "Displays the version"
@@ -60,4 +62,13 @@ private
   def source_paths
     [File.join(Dir.pwd, 'support')] + super
   end
+
+  def templates
+    source_paths.collect do |path|
+      Dir.glob(File.join(path, 'font.*.tt')).collect do |file|
+        File.basename(file)
+      end
+    end.flatten.uniq
+  end
+
 end

@@ -35,6 +35,17 @@ describe Blacksmith::Runner do
         File.read('build/My-Font.css').should eq("Custom Content")
       end
     end
+
+    context 'with additional support files' do
+      before do
+        file 'support/font.scss.tt', 'Custom Content'
+        capture(:stdout) { subject.generate }
+      end
+    
+      it 'should generate the additional file' do
+        File.read('build/My-Font.scss').should eq("Custom Content")
+      end
+    end
   end
 
   describe '#version' do

@@ -61,6 +61,9 @@ When adding glyphs you may pass these additional options:
     :scale
     :offset
 
+### Custom templates
+
+You may add more templates or even override every template by creating a `support` directory and adding a `font.<format>.tt` file. Blacksmith will evaluate every template matching this format during font generation. Have a look at Blacksmith's [`support`](https://github.com/t6d/blacksmith/tree/refactor/support) directory for further reference. 
 
 ## Pitfalls
 

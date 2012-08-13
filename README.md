@@ -72,10 +72,6 @@ You may add more templates or even override every template by creating a `suppor
 Make sure that all your SVGs contain a `viewBox` definition. Otherwise, weird
 things might happen.
 
-### EOT generation
-
-FontForge cannot generate EOT files. Therefore you'll run into issues displaying the fonts in Internet Explorer 8. For now use a tool like `ttf2eot` to convert the generated TTF file into a valid EOT file.
-
 ## Contributing
 
 1. Fork it

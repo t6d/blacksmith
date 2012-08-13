@@ -5,6 +5,7 @@ describe Blacksmith::Runner do
   describe '#generate' do
     before do
       Blacksmith::FontForge.any_instance.stub(:execute!)
+      TTF2EOT.stub(:convert)
       file 'source/glyph.svg'
       file 'Forgefile', <<-EOF
         name 'My Font'
@@ -22,6 +23,11 @@ describe Blacksmith::Runner do
 
       it 'should generate a html file' do
         File.file?('build/My-Font.html').should be_true
+      end
+
+      it 'should convert the ttf to eot' do
+        TTF2EOT.should_receive(:convert).with('build/My-Font.ttf', 'build/My-Font.eot')
+        capture(:stdout) { subject.generate }
       end
     end
 

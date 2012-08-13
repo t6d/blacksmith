@@ -16,5 +16,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "smart_properties", "~> 1.0"
   gem.add_dependency "thor", "~> 0.15"
+  gem.add_dependency "ttf2eot", "~> 0.1"
   gem.add_development_dependency "rspec", "~> 2.10"
 end

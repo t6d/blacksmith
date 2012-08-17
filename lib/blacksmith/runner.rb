@@ -1,5 +1,4 @@
 require 'thor'
-require 'ttf2eot'
 
 class Blacksmith::Runner < Thor
   include Thor::Actions
@@ -32,10 +31,6 @@ class Blacksmith::Runner < Thor
       say_status :create, "build/#{font.basename}.svg"
       say_status :create, "build/#{font.basename}.woff"
     end
-
-    TTF2EOT.convert("build/#{font.basename}.ttf", "build/#{font.basename}.eot")
-    say_status :create, "build/#{font.basename}.eot"
-
 
     templates.each do |template|
       ext = template.gsub(/font\.(\w+)\.tt/, '\1')

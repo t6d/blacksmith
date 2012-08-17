@@ -56,7 +56,9 @@ class Blacksmith::TTF::TableReader
     end
     
     def create_table(&block)
-      table_builder.call(tag).tap { |t| t.tag = tag }.tap(&block)
+      table = table_builder.call(tag).tap { |t| t.tag = tag }
+      table.tap(&block) if block
+      table
     end
     
 end

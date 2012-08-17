@@ -59,7 +59,9 @@ class Blacksmith::TTF::FontReader
     end
     
     def create_font(&block)
-      font_builder.call.tap(&block)
+      font = font_builder.call
+      font.tap(&block) if block
+      font
     end
   
 end

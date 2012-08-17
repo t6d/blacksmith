@@ -16,3 +16,5 @@ require 'blacksmith/version'
 
 require 'blacksmith/runner'
 require 'blacksmith/dsl'
+
+require 'blacksmith/ttf'

@@ -118,7 +118,7 @@ TTFFixture.describe('blacksmith.ttf') do |f|
   f.table('glyf', 700, 166)
   f.table('head', 868, 54) do |t|
     t.major_version = 1
-    t.minor_verion = 0
+    t.minor_version = 0
   end
   f.table('hhea', 924, 36)
   f.table('hmtx', 960, 16)

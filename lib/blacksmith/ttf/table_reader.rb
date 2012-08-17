@@ -38,9 +38,12 @@ class Blacksmith::TTF::TableReader
     end
     
     def read_head_table
-      table = create_table
-      
-      table
+      table = create_table do |t|
+        attrs = data.unpack("n2")
+        
+        t.major_version = attrs.shift
+        t.minor_version = attrs.shift
+      end
     end
     
     def read_name_table

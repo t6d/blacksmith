@@ -38,4 +38,23 @@ describe Blacksmith::TTF::TableReader do
     
   end
   
+  context "when reading the head table of the fixture blacksmith" do
+    
+    fixture = TTFFixture['blacksmith']
+    tag     = 'head'
+    
+    fixture[tag].members.each do |m, v|
+      
+      it "should set #{m} correctly" do
+        head_table.should_receive("#{m}=").with(v)
+      end
+      
+    end
+    
+    after do
+      subject.read(tag, fixture[tag].data)
+    end
+    
+  end
+  
 end

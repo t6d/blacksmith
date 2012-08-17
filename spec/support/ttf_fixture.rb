@@ -1,4 +1,5 @@
 require 'stringio'
+require 'ostruct'
 
 class TTFFixture
   
@@ -47,10 +48,14 @@ class TTFFixture
     @tables[tag]
   end
   
-  def table(tag, offset, length)
+  def table(tag, offset, length, &block)
     old_pos = data.pos
     data.seek(offset, IO::SEEK_SET)
-    @tables[tag] = data.read(length)
+    @tables[tag] = begin
+      table = OpenStruct.new(:data => data.read(length))
+      table.tap(&block) if block
+      table
+    end
     data.seek(old_pos, IO::SEEK_SET)
     
     nil

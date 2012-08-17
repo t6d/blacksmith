@@ -41,9 +41,9 @@ describe Blacksmith::TTF::FontReader do
       font.should_receive(:<<).with(table).exactly(fixture.tables_count).times
     end
     
-    fixture.each do |tag, table_data|
+    fixture.each do |tag, table|
       it "should read the #{tag} table" do
-        table_reader.should_receive(:read).with(tag, table_data)
+        table_reader.should_receive(:read).with(tag, table.data)
       end
     end
     

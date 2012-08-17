@@ -2,6 +2,8 @@ require 'stringio'
 
 class TTFFixture
   
+  include Enumerable
+  
   def self.[](name)
     @fixtures ||= {}
     @fixtures[name.to_sym]
@@ -15,15 +17,12 @@ class TTFFixture
   def self.describe(path, &block)
     path = File.expand_path("../../../fixtures/#{path}", __FILE__)
     
-    fixture = new(path).tap(&block)
-    fixture.data = begin
-      io = StringIO.new(File.read(path))
-      io.rewind
-      io
-    end
+    fixture = new(StringIO.new(File.read(path)))
+    fixture.tap(&block)
     
     self[File.basename(path, '.ttf')] = fixture
     
+    fixture.reset!
     fixture
   end
   
@@ -41,8 +40,25 @@ class TTFFixture
   
   def initialize(data)
     @data = data
+    @tables = {}
   end
   
+  def [](tag)
+    @tables[tag]
+  end
+  
+  def table(tag, offset, length)
+    old_pos = data.pos
+    data.seek(offset, IO::SEEK_SET)
+    @tables[tag] = data.read(length)
+    data.seek(old_pos, IO::SEEK_SET)
+    
+    nil
+  end
+  
+  def each(&block)
+    @tables.each(&block)
+  end
   
   def reset!
     @data.rewind
@@ -51,7 +67,6 @@ class TTFFixture
 end
 
 TTFFixture.describe('blacksmith.ttf') do |f|
-  
   f.major_version = 1
   f.minor_version = 0
   f.tables_count = 15
@@ -59,6 +74,21 @@ TTFFixture.describe('blacksmith.ttf') do |f|
   f.entry_selector = 3
   f.range_shift = 112
   
+  f.table('FFTM', 252, 28)
+  f.table('OS/2', 280, 96)
+  f.table('cmap', 376, 322)
+  f.table('cvt ', 1636, 16)
+  f.table('fpgm', 1652, 2301)
+  f.table('gasp', 1628, 8)
+  f.table('glyf', 700, 166)
+  f.table('head', 868, 54)
+  f.table('hhea', 924, 36)
+  f.table('hmtx', 960, 16)
+  f.table('loca', 976, 10)
+  f.table('maxp', 988, 32)
+  f.table('name', 1020, 561)
+  f.table('post', 1584, 42)
+  f.table('prep', 3956, 45)
 end
 
 RSpec.configure do |config|

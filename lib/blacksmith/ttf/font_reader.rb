@@ -35,7 +35,8 @@ class Blacksmith::TTF::FontReader
     
     def read_tables(header)
       header.table_directory.map do |entry|
-        ::Blacksmith::TTF::TableReader.new.read
+        data.seek(entry.offset, IO::SEEK_SET)
+        ::Blacksmith::TTF::TableReader.new.read(entry.tag, data.read(entry.length))
       end
     end
     

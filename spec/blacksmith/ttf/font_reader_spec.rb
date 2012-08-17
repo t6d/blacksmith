@@ -15,7 +15,7 @@ describe Blacksmith::TTF::FontReader do
   
   context "when processing the fixture blacksmith" do
     
-    let(:fixture) { TTFFixture['blacksmith'] }
+    fixture = TTFFixture['blacksmith']
     
     it "should set the correct major version" do
       font.should_receive(:major_version=).with(fixture.major_version)
@@ -39,6 +39,12 @@ describe Blacksmith::TTF::FontReader do
     
     it "should parse all tables" do
       font.should_receive(:<<).with(table).exactly(fixture.tables_count).times
+    end
+    
+    fixture.each do |tag, table_data|
+      it "should read the #{tag} table" do
+        table_reader.should_receive(:read).with(tag, table_data)
+      end
     end
     
     after do

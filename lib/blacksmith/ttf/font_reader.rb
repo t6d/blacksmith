@@ -3,8 +3,14 @@ class Blacksmith::TTF::FontReader
   Header = Struct.new(:major_version, :minor_version, :number_of_tables, :search_range, :entry_selector, :range_shift, :table_directory)
   TableDirectoryEntry = Struct.new(:tag, :check_sum, :offset, :length)
   
-  def initialize(font = Font)
-    @font = font
+  def initialize(font = Font, &block)
+    @font_builder = if block
+      block
+    elsif font.kind_of?(Class)
+      lambda { font.new }
+    else
+      lambda { font }
+    end
   end
   
   def read(data)
@@ -18,7 +24,7 @@ class Blacksmith::TTF::FontReader
   
   protected
     
-    attr_reader :font
+    attr_reader :font_builder
     attr_reader :data
   
   private
@@ -41,17 +47,19 @@ class Blacksmith::TTF::FontReader
     end
     
     def assemble_font(header, tables)
-      font = self.font.kind_of?(Class) ? self.font.new : self.font
-      
-      font.major_version  = header.major_version
-      font.minor_version  = header.minor_version
-      font.search_range   = header.search_range
-      font.entry_selector = header.entry_selector
-      font.range_shift    = header.range_shift
-      
-      tables.each { |t| font << t }
-      
-      font
+      create_font do |font|
+        font.major_version  = header.major_version
+        font.minor_version  = header.minor_version
+        font.search_range   = header.search_range
+        font.entry_selector = header.entry_selector
+        font.range_shift    = header.range_shift
+
+        tables.each { |t| font << t }
+      end
+    end
+    
+    def create_font(&block)
+      font_builder.call.tap(&block)
     end
   
 end

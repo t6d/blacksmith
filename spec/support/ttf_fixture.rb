@@ -1,7 +1,36 @@
 require 'stringio'
-require 'ostruct'
 
 class TTFFixture
+  
+  class Table
+    
+    include Enumerable
+    
+    attr_accessor :data
+    
+    def initialize
+      @members = {}
+    end
+    
+    def members
+      @members.dup
+    end
+    
+    def each(&block)
+      @members.each(&block)
+    end
+    
+    def method_missing(m, *args, &block)
+      if args.length == 1 && match = /(.+)=$/.match(m)
+        @members[match.captures[0]] = args[0]
+      elsif args.length == 0 && @_members.include?(m)
+        @members[m]
+      else
+        super
+      end
+    end
+    
+  end
   
   include Enumerable
   
@@ -52,7 +81,8 @@ class TTFFixture
     old_pos = data.pos
     data.seek(offset, IO::SEEK_SET)
     @tables[tag] = begin
-      table = OpenStruct.new(:data => data.read(length))
+      table = Table.new
+      table.data = data.read(length)
       table.tap(&block) if block
       table
     end
@@ -86,7 +116,10 @@ TTFFixture.describe('blacksmith.ttf') do |f|
   f.table('fpgm', 1652, 2301)
   f.table('gasp', 1628, 8)
   f.table('glyf', 700, 166)
-  f.table('head', 868, 54)
+  f.table('head', 868, 54) do |t|
+    t.major_version = 1
+    t.minor_verion = 0
+  end
   f.table('hhea', 924, 36)
   f.table('hmtx', 960, 16)
   f.table('loca', 976, 10)

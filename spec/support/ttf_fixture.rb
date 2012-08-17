@@ -21,6 +21,8 @@ class TTFFixture
     end
     
     def method_missing(m, *args, &block)
+      m = m.to_s
+      
       if args.length == 1 && match = /(.+)=$/.match(m)
         @members[match.captures[0]] = args[0]
       elsif args.length == 0 && @_members.include?(m)

@@ -32,9 +32,40 @@ class Blacksmith::TTF::TableReader
   private
   
     def read_os2_table
-      table = create_table
-      
-      table
+      create_table do |t|
+        attrs = data.unpack("n14C10N4a4n8N2")
+        
+        t.version              = attrs.shift
+        t.average_char_width   = signed attrs.shift
+        t.us_weight_class      = attrs.shift
+        t.us_width_class       = attrs.shift
+        t.fs_type              = signed attrs.shift
+        t.subscript_x_size     = signed attrs.shift
+        t.subscript_y_size     = signed attrs.shift
+        t.subscript_x_offset   = signed attrs.shift
+        t.subscript_y_offset   = signed attrs.shift
+        t.superscript_x_size   = signed attrs.shift
+        t.superscript_y_size   = signed attrs.shift
+        t.superscript_x_offset = signed attrs.shift
+        t.superscript_y_offset = signed attrs.shift
+        t.family_class         = signed attrs.shift
+        t.panose               = Blacksmith::TTF::Panose.new(*attrs.shift(10))
+        t.unicode_range_1      = attrs.shift
+        t.unicode_range_2      = attrs.shift
+        t.unicode_range_3      = attrs.shift
+        t.unicode_range_4      = attrs.shift
+        t.vendor_id            = attrs.shift
+        t.fs_selection         = attrs.shift
+        t.us_first_char_index  = attrs.shift
+        t.us_last_char_index   = attrs.shift
+        t.typo_ascender        = attrs.shift
+        t.type_descender       = attrs.shift
+        t.type_line_gap        = attrs.shift
+        t.us_win_ascent        = attrs.shift
+        t.us_win_descent       = attrs.shift
+        t.code_page_range_1    = attrs.shift
+        t.code_page_range_2    = attrs.shift
+      end
     end
     
     def read_head_table

@@ -10,7 +10,7 @@ describe Blacksmith::TTF::TableReader do
   subject do
     described_class.new do |tag|
       case tag
-      when 'OS/2' then o2_table
+      when 'OS/2' then os2_table
       when 'head' then head_table
       when 'name' then name_table
       else
@@ -47,6 +47,25 @@ describe Blacksmith::TTF::TableReader do
       
       it "should set #{m} correctly" do
         head_table.should_receive("#{m}=").with(v)
+      end
+      
+    end
+    
+    after do
+      subject.read(tag, fixture[tag].data)
+    end
+    
+  end
+  
+  context "when reading the OS/2 table of the fixture blacksmith" do
+    
+    fixture = TTFFixture['blacksmith']
+    tag     = 'OS/2'
+    
+    fixture[tag].members.each do |m, v|
+      
+      it "should set #{m} correctly" do
+        os2_table.should_receive("#{m}=").with(v)
       end
       
     end

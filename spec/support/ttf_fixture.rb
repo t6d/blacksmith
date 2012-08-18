@@ -112,7 +112,38 @@ TTFFixture.describe('blacksmith.ttf') do |f|
   f.range_shift = 112
   
   f.table('FFTM', 252, 28)
-  f.table('OS/2', 280, 96)
+  f.table('OS/2', 280, 96) do |t|
+    t.version = 4
+    t.average_char_width = 975
+    t.us_weight_class = 900
+    t.us_width_class = 5
+    t.fs_type = 0
+    t.subscript_x_size = 650
+    t.subscript_y_size = 700
+    t.subscript_x_offset = 0
+    t.subscript_y_offset = 140
+    t.superscript_x_size = 650
+    t.superscript_y_size = 700
+    t.superscript_x_offset = 0
+    t.superscript_y_offset = 480
+    t.family_class = 49
+    t.panose = Blacksmith::TTF::Panose.new(1, 2, 0, 0, 2, 0, 10, 9, 0, 0)
+    t.unicode_range_1 = 0
+    t.unicode_range_2 = 1
+    t.unicode_range_3 = 0
+    t.unicode_range_4 = 0
+    t.vendor_id = "\x00" * 4
+    t.fs_selection = 20582
+    t.us_first_char_index = 17764
+    t.us_last_char_index = 128
+    t.typo_ascender = 97
+    t.type_descender = 97
+    t.type_line_gap = 800
+    t.us_win_ascent = 65336
+    t.us_win_descent = 90
+    t.code_page_range_1 = 52428898
+    t.code_page_range_2 = 1
+  end
   f.table('cmap', 376, 322)
   f.table('cvt ', 1636, 16)
   f.table('fpgm', 1652, 2301)

@@ -121,6 +121,14 @@ TTFFixture.describe('blacksmith.ttf') do |f|
   f.table('head', 868, 54) do |t|
     t.major_version = 1
     t.minor_version = 0
+    t.major_font_revision = 1
+    t.minor_font_revision = 0
+    t.check_sum = 0x8F53C37A
+    t.magic_number = 0x5F0F3CF5
+    t.flags = 0x000B
+    t.units_per_em = 1000
+    t.created = 3422346961
+    t.modified = 3422346961
   end
   f.table('hhea', 924, 36)
   f.table('hmtx', 960, 16)

@@ -38,11 +38,19 @@ class Blacksmith::TTF::TableReader
     end
     
     def read_head_table
-      table = create_table do |t|
-        attrs = data.unpack("n2")
+      create_table do |t|
+        attrs = data.unpack("n4N2n2N4")
         
-        t.major_version = attrs.shift
-        t.minor_version = attrs.shift
+        t.major_version       = attrs.shift
+        t.minor_version       = attrs.shift
+        t.major_font_revision = attrs.shift
+        t.minor_font_revision = attrs.shift
+        t.check_sum           = attrs.shift
+        t.magic_number        = attrs.shift
+        t.flags               = attrs.shift
+        t.units_per_em        = attrs.shift        
+        t.created             = parse_date(*attrs.shift(2))
+        t.modified            = parse_date(*attrs.shift(2))
       end
     end
     
@@ -62,6 +70,10 @@ class Blacksmith::TTF::TableReader
       table = table_builder.call(tag).tap { |t| t.tag = tag }
       table.tap(&block) if block
       table
+    end
+    
+    def parse_date(msb, lsb)
+      (msb << 32) | lsb
     end
     
 end

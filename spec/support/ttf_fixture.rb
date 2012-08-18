@@ -129,6 +129,15 @@ TTFFixture.describe('blacksmith.ttf') do |f|
     t.units_per_em = 1000
     t.created = 3422346961
     t.modified = 3422346961
+    t.x_min = 15
+    t.y_min = -98
+    t.x_max = 960
+    t.y_max = 800
+    t.mac_style = 0
+    t.lowest_rec_ppem = 8
+    t.font_direction_hint = 2
+    t.index_to_loc_format = 0
+    t.glyph_data_format = 0
   end
   f.table('hhea', 924, 36)
   f.table('hmtx', 960, 16)

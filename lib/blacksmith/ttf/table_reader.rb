@@ -39,7 +39,7 @@ class Blacksmith::TTF::TableReader
     
     def read_head_table
       create_table do |t|
-        attrs = data.unpack("n4N2n2N4")
+        attrs = data.unpack("n4N2n2N4n9")
         
         t.major_version       = attrs.shift
         t.minor_version       = attrs.shift
@@ -51,6 +51,15 @@ class Blacksmith::TTF::TableReader
         t.units_per_em        = attrs.shift        
         t.created             = parse_date(*attrs.shift(2))
         t.modified            = parse_date(*attrs.shift(2))
+        t.x_min               = signed attrs.shift
+        t.y_min               = signed attrs.shift
+        t.x_max               = signed attrs.shift
+        t.y_max               = signed attrs.shift
+        t.mac_style           = attrs.shift
+        t.lowest_rec_ppem     = attrs.shift
+        t.font_direction_hint = signed attrs.shift
+        t.index_to_loc_format = signed attrs.shift
+        t.glyph_data_format   = signed attrs.shift
       end
     end
     
@@ -74,6 +83,11 @@ class Blacksmith::TTF::TableReader
     
     def parse_date(msb, lsb)
       (msb << 32) | lsb
+    end
+    
+    def signed(number, bits = 16)
+      number = (2 ** bits) - 1 & number      
+      number >= 2 ** (bits - 1) ? number - (2 ** bits) : number
     end
     
 end

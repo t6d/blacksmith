@@ -95,9 +95,13 @@ class Blacksmith::TTF::TableReader
     end
     
     def read_name_table
-      table = create_table
-      
-      table
+      create_table do |t|
+        attrs = data.unpack("n3")
+        
+        t.format                = attrs.shift
+        t.count                 = attrs.shift
+        t.string_storage_offset = attrs.shift
+      end
     end
     
     def read_raw_table

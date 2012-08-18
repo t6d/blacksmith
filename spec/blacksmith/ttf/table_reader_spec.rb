@@ -76,4 +76,23 @@ describe Blacksmith::TTF::TableReader do
     
   end
   
+  context "when reading the naming table of the fixture blacksmith" do
+    
+    fixture = TTFFixture['blacksmith']
+    tag     = 'name'
+    
+    fixture[tag].members.each do |m, v|
+      
+      it "should set #{m} correctly" do
+        name_table.should_receive("#{m}=").with(v)
+      end
+      
+    end
+    
+    after do
+      subject.read(tag, fixture[tag].data)
+    end
+    
+  end
+  
 end

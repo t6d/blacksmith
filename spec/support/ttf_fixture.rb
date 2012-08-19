@@ -10,13 +10,10 @@ class TTFFixture
     
     def initialize
       @members = {}
+      @collections = {}
     end
     
-    def members
-      @members.dup
-    end
-    
-    def each(&block)
+    def each_member(&block)
       @members.each(&block)
     end
     
@@ -24,9 +21,18 @@ class TTFFixture
       m = m.to_s
       
       if args.length == 1 && match = /(.+)=$/.match(m)
-        @members[match.captures[0]] = args[0]
-      elsif args.length == 0 && @_members.include?(m)
+        @members[match[1]] = args[0]
+      elsif args.length > 0 && /.+[^=]$/.match(m)
+        @collections[m] ||= []
+        @collections[m] << args
+      elsif args.length == 0 && @members.include?(m)
         @members[m]
+      elsif args.length == 0 && match = /^each_(.+)/.match(m)
+        if @collections.include?(match[1])
+          @collections[match[1]].each(&block)
+        else
+          raise NoMethodError, "#{self.class}##{m} not defined"
+        end
       else
         super
       end

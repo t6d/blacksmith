@@ -43,7 +43,7 @@ describe Blacksmith::TTF::TableReader do
     fixture = TTFFixture['blacksmith']
     tag     = 'head'
     
-    fixture[tag].members.each do |m, v|
+    fixture[tag].each_member do |m, v|
       
       it "should set #{m} correctly" do
         head_table.should_receive("#{m}=").with(v)
@@ -62,7 +62,7 @@ describe Blacksmith::TTF::TableReader do
     fixture = TTFFixture['blacksmith']
     tag     = 'OS/2'
     
-    fixture[tag].members.each do |m, v|
+    fixture[tag].each_member do |m, v|
       
       it "should set #{m} correctly" do
         os2_table.should_receive("#{m}=").with(v)
@@ -81,7 +81,7 @@ describe Blacksmith::TTF::TableReader do
     fixture = TTFFixture['blacksmith']
     tag     = 'name'
     
-    fixture[tag].members.each do |m, v|
+    fixture[tag].each_member do |m, v|
       
       it "should set #{m} correctly" do
         name_table.should_receive("#{m}=").with(v)

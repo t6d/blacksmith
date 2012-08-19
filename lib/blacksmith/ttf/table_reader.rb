@@ -105,9 +105,9 @@ class Blacksmith::TTF::TableReader
           
           string_offset = attrs.pop
           string_length = attrs.pop
-          string = data.unpack("@#{storage_area_offset + string_offset}a#{string_length}")[0]
+          string = data.unpack("@#{storage_area_offset + string_offset}a#{string_length}")
           
-          t << Blacksmith::TTF::NameRecord.new(*attrs, string)
+          t << Blacksmith::TTF::NameRecord.new(*(attrs + string))
         end
       end
     end

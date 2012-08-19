@@ -13,6 +13,12 @@ module Blacksmith::TTF
                       :midline,
                       :x_height
   
+  NameRecord = Struct.new :platform_id,
+                          :platform_specific_encoding_id,
+                          :language_id,
+                          :name_id,
+                          :value
+  
 end
 
 require 'blacksmith/ttf/font'

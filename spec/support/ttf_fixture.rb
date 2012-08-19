@@ -182,8 +182,8 @@ TTFFixture.describe('blacksmith.ttf') do |f|
   f.table('maxp', 988, 32)
   f.table('name', 1020, 561) do |t|
     t.format = 0
-    t.count = 12
-    t.string_storage_offset = 150
+    t.name_record(1, 0, 0, 1, 'Blacksmith')
+    t.name_redord(1, 0, 2, 7, 'Regular')
   end
   f.table('post', 1584, 42)
   f.table('prep', 3956, 45)

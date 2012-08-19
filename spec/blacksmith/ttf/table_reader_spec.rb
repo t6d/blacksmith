@@ -80,11 +80,27 @@ describe Blacksmith::TTF::TableReader do
     
     fixture = TTFFixture['blacksmith']
     tag     = 'name'
+    table   = fixture[tag]
     
-    fixture[tag].each_member do |m, v|
+    let(:name_record) { mock('name_record') }
+    
+    before do
+      Blacksmith::TTF::NameRecord.stub(:new).and_return(name_record)
+    end
+    
+    table.each_member do |m, v|
       
       it "should set #{m} correctly" do
         name_table.should_receive("#{m}=").with(v)
+      end
+      
+    end
+    
+    table.each_name_record do |attrs|
+      
+      it "should add a name record with the following attributes: #{attrs.inspect}" do
+        Blacksmith::TTF::NameRecord.should_receive(:new).with(*attrs).once.and_return(name_record)
+        name_table.should_receive(:<<).with(name_record)
       end
       
     end

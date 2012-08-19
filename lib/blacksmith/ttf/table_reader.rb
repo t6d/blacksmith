@@ -96,11 +96,19 @@ class Blacksmith::TTF::TableReader
     
     def read_name_table
       create_table do |t|
-        attrs = data.unpack("n3")
+        format, count, storage_area_offset = data.unpack("n3")
         
-        t.format                = attrs.shift
-        t.count                 = attrs.shift
-        t.string_storage_offset = attrs.shift
+        t.format = format
+        
+        0.upto(count - 1) do |index|
+          attrs = data.unpack("@#{6 + (index * 12)}n6")
+          
+          string_offset = attrs.pop
+          string_length = attrs.pop
+          string = data.unpack("@#{storage_area_offset + string_offset}a#{string_length}")[0]
+          
+          t << Blacksmith::TTF::NameRecord.new(*attrs, string)
+        end
       end
     end
     

@@ -1,18 +1,22 @@
 class Blacksmith::Executable
-  include Singleton
   
-  class << self
+  def self.execute!(*args)
+    new(*args).execute!
+  end
+  
+  def execute!(opts = {})
+    raise Blacksmith::DependencyMissing, instructions unless installed?
     
-    def method_missing(name, *args, &block)
-      instance.send(name, *args, &block)
+    if opts[:verbose]
+      system(executable, *arguments)
+    else
+      silence { system(executable, *arguments) }
     end
-    
   end
   
-  def executable
-    raise NotImplementedError, "#{self.class} is expected to implement #executable"
-  end
   
+protected
+
   def installed?
     @installed unless @installed.nil?
     
@@ -26,8 +30,25 @@ class Blacksmith::Executable
     end
   end
   
-  def check_dependency!
-    raise Blacksmith::DependencyMissing, "#{executable} not installed" unless installed?
+  def executable
+    raise NotImplementedError, "#{self.class} must implement #executable"
   end
   
+  def arguments
+    []
+  end
+  
+  def instructions
+    "#{executable} is not installed"
+  end
+  
+  def silence
+    err = $stderr.dup
+    $stderr.reopen('/dev/null')
+    yield
+  ensure
+    $stderr.close
+    $stderr = err
+  end
+    
 end

@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require 'blacksmith'
 
-Blacksmith.run(ARGV)
+Blacksmith::Runner.start

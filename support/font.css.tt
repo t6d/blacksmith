@@ -1,0 +1,12 @@
+@font-face {
+  font-family: '<%= font.family %>';
+  src: url('<%= font.basename %>.eot');
+  src: url('<%= font.basename %>.eot?#iefix') format('embedded-opentype'),
+       url('<%= font.basename %>.ttf') format('truetype'),
+       url('<%= font.basename %>.svg#<%= font.identifier %>') format('svg');
+  font-weight: <%= font.weight %>;
+  font-style: normal;
+}
+
+.<%= font.identifier %>{font-family:'<%= font.family %>';}
+<% for glyph in font.glyphs do %>.<%= glyph.name %>:before{content:'\<%= "%04x" % glyph.code %>'} <% end %>

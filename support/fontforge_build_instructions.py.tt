@@ -22,7 +22,7 @@ def scale(char, origin, scale):
     
 def position(char, offset):
     """Repositions the glyph"""
-    offset_matrix = psMat.translate(0, offset * <%= ascent + descent %>)
+    offset_matrix = psMat.translate(0, offset * <%= font.ascent + font.descent %>)
     char.transform(offset_matrix)
     
 # --------------------------------------------------------------------------
@@ -32,16 +32,16 @@ def position(char, offset):
 font = fontforge.font()
 
 font.encoding   = 'UnicodeFull'
-font.version    = "<%= version %>"
-font.fontname   = "<%= identifier %>"
-font.fullname   = "<%= name %>"
-font.familyname = "<%= family %>"
-font.copyright  = "<%= copyright %>"
-font.ascent     = <%= ascent %>
-font.descent    = <%= descent %>
-font.weight     = "<%= weight %>"
+font.version    = "<%= font.version %>"
+font.fontname   = "<%= font.name %>"
+font.fullname   = "<%= font.name %>"
+font.familyname = "<%= font.name %>"
+font.copyright  = "<%= font.copyright %>"
+font.ascent     = <%= font.ascent %>
+font.descent    = <%= font.descent %>
+font.weight     = "<%= font.weight %>"
 
-<% for glyph in glyphs do %>
+<% for glyph in font.glyphs do %>
 # <%= glyph.name %>
 c = font.createChar(<%= glyph.code %>)
 c.importOutlines("<%= glyph.source %>")
@@ -49,8 +49,12 @@ c.left_side_bearing = <%= glyph.left_side_bearing %>
 c.right_side_bearing = <%= glyph.right_side_bearing %>
 c.simplify()
 c.round()
-<%= "scale(c, (#{origin.x}, #{origin.y}), #{glyph.scale})" if glyph.scale %>
+<%= "scale(c, (#{font.origin.x}, #{font.origin.y}), #{glyph.scale})" if glyph.scale %>
 <%= "position(c, #{glyph.offset})" if glyph.offset %>
 <% end %>
 
-font.generate("<%= ttf_path %>")
+font.autoHint
+
+font.generate("build/<%= font.basename %>.ttf")
+font.generate("build/<%= font.basename %>.svg")
+font.generate("build/<%= font.basename %>.woff")

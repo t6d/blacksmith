@@ -157,4 +157,32 @@ describe Blacksmith::TTF::Table do
     
   end
   
+  context "when building a new table type that has a property that only accepts a value in the range of a long long" do
+    
+    context "instances of this class" do
+      
+      subject { table_class_builder.call { long_long :some_long_long }.new }
+      
+      it "should allow -9223372036854775808  as value for this property" do
+        expect { subject.some_long_long = stub(:to_i => -9223372036854775808) }.not_to raise_error
+        subject.some_long_long.should be == -9223372036854775808
+      end
+      
+      it "should allow 9223372036854775808 as value for this property" do
+        expect { subject.some_long_long = stub(:to_i => 9223372036854775807) }.not_to raise_error
+        subject.some_long_long.should be == 9223372036854775807
+      end
+      
+      it "should not allow 9223372036854775808 as value for this property" do
+        expect { subject.some_long_long = stub(:to_i => 9223372036854775808) }.to raise_error(ArgumentError)
+      end
+      
+      it "should not allow -9223372036854775809 as value for this property" do
+        expect { subject.some_long_long = stub(:to_i => -9223372036854775809) }.to raise_error(ArgumentError)
+      end
+      
+    end
+    
+  end
+  
 end

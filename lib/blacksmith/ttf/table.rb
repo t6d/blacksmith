@@ -52,6 +52,10 @@ class Blacksmith::TTF::Table
       def unsigned_long(name)
         property(name, :converts => :to_i, :accepts => 0 .. 4294967295)
       end
+      
+      def long_long(name)
+        property(name, :converts => :to_i, :accepts => -9223372036854775808 .. 9223372036854775807)
+      end
     
   end
   

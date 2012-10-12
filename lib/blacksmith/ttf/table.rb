@@ -1,10 +1,12 @@
 class Blacksmith::TTF::Table
+  include SmartProperties
+  
   class << self
     
     protected :new
     
     def tag
-      raise NotImplementError, "#{self}.tag not implemented"
+      nil
     end
 
     def create_by_tag(tag, *args)
@@ -16,8 +18,8 @@ class Blacksmith::TTF::Table
     end
 
     def inherited(subclass)
-      subclass.instance_eval do
-        public :new
+      def subclass.new(*args, &block)
+        super
       end
       
       subclasses[subclass.tag] = subclass unless subclass.tag.nil?
@@ -27,6 +29,28 @@ class Blacksmith::TTF::Table
     
       def subclasses
         @subclasses ||= {}
+      end
+      
+      def unsigned_short(name)
+        property(name, :converts => :to_i, :accepts => 0 .. 65535)
+      end
+      alias ufword unsigned_short
+      
+      def byte(name)
+        property(name, :converts => :to_i, :accepts => 0 .. 255)
+      end
+      alias fword byte
+      
+      def char(name)
+        property(name, :converts => :to_i, :accepts => -128 .. 127)
+      end
+      
+      def long(name)
+        property(name, :converts => :to_i, :accepts => -2147483648 .. 2147483647)
+      end
+      
+      def unsigned_long(name)
+        property(name, :converts => :to_i, :accepts => 0 .. 4294967295)
       end
     
   end
